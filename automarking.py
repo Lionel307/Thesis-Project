@@ -23,9 +23,11 @@ def automark_quiz(quizID):
         # update the score of the quiz attempt
 
         if attempt["id"] in quizAttempt:
-            attempt["score"] = automark_attempt(attempt)
-            # update attempt as marked
-            attempt["marked"] = True
+            #TODO: test this
+            if not attempt["marked"]:
+                attempt["score"] = automark_attempt(attempt)
+                # update attempt as marked
+                attempt["marked"] = True
 
     # update each question in the attempt as marked and assign the score
     for response in data["questionResponses"]: 

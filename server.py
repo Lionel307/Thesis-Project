@@ -108,7 +108,7 @@ def delete_quiz_api():
         return jsonify({'error': str(e)}), 400
 
 # edit a quiz
-@app.route('/Quizzes/Details', methods=['PUT'])
+@app.route('/Quiz/Details', methods=['PUT'])
 def edit_quiz_api():
     data = request.json
     try:
@@ -217,16 +217,16 @@ def edit_question_api():
     data = request.json
     try:
         edit_question(data['id'], data['creatorID'], data['changes'])
-        return '', 204
+        return jsonify({'message': 'Question edited successfully'}), 200
     except (AccessError, InputError) as e:
         return jsonify({'error': str(e)}), 400
 
-@app.route('/Question/Details', methods=['DELETE'])
+@app.route('/Question/Bank', methods=['DELETE'])
 def delete_question_api():
     data = request.json
     try:
         delete_question(data['id'], data['creatorID'])
-        return '', 204
+        return jsonify({'message': 'Quiz deleted successfully'}), 200
     except (AccessError, InputError) as e:
         return jsonify({'error': str(e)}), 400
 
@@ -262,7 +262,7 @@ def check_admins_questions_api():
     
     try:
         questions = get_all_questions(zID, courseName)
-        return jsonify({'courses': questions}), 200
+        return jsonify({'questions': questions}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -356,8 +356,7 @@ def get_highest_mark_attempt_api():
 def automark_quiz_api():
     data = request.get_json()
     try:
-        quizID = data['quizID']
-        automark_quiz(quizID)
+        automark_quiz(data['quizID'])
         return jsonify({'message': 'Quiz automarked successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400

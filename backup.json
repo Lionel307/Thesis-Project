@@ -46,6 +46,19 @@
             "attemptsAllowed": 1,
             "timeAllowed": "00:00:20",
             "isActive": false
+        },
+        {
+            "id": "17816fd0-f83d-4fbf-9d33-22582ee5f90e",
+            "title": "edited test1",
+            "description": "description test",
+            "creator": "12",
+            "course": "Course1",
+            "questions": [
+                "3a5379c7-0683-4840-a59c-1539f902a862"
+            ],
+            "attemptsAllowed": "2",
+            "timeAllowed": "10:30:00",
+            "isActive": false
         }
     ],
     "questions": [
@@ -69,9 +82,9 @@
             "responses": [
                 "f32b8b84-6465-40c3-a367-b455fd26e941"
             ],
-            "score": 10,
+            "score": 0,
             "attemptDate": "date",
-            "marked": true
+            "marked": false
         }
     ],
     "questionResponses": [
@@ -79,7 +92,7 @@
             "id": "f32b8b84-6465-40c3-a367-b455fd26e941",
             "questionID": "3a5379c7-0683-4840-a59c-1539f902a862",
             "quizAttemptID": "43efddab-b505-43e8-8bb2-1f7c741a4d12",
-            "answer": "hello world\n",
+            "answer": "hello world",
             "studentID": 1,
             "marked": false,
             "marksGiven": 0
