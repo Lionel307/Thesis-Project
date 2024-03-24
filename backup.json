@@ -1,0 +1,88 @@
+{
+    "students": [
+        {
+            "id": "1",
+            "name": "John Doe",
+            "password": "password",
+            "PastAttempts": [
+                1
+            ]
+        },
+        {
+            "id": "2",
+            "name": "Jane Smith",
+            "password": "123",
+            "PastAttempts": [
+                2
+            ]
+        }
+    ],
+    "admins": [
+        {
+            "id": "12",
+            "name": "Doe John",
+            "password": "password"
+        }
+    ],
+    "courses": [
+        {
+            "id": 13,
+            "title": "Course1",
+            "creatorID": "12",
+            "maxStudents": 10,
+            "students": []
+        }
+    ],
+    "quizzes": [
+        {
+            "id": "d370e69b-fc24-4d1e-b42d-68da52153973",
+            "title": "First quiz",
+            "description": "description test",
+            "creator": "12",
+            "course": "Course1",
+            "questions": [
+                "3a5379c7-0683-4840-a59c-1539f902a862"
+            ],
+            "attemptsAllowed": 1,
+            "timeAllowed": "00:00:20",
+            "isActive": false
+        }
+    ],
+    "questions": [
+        {
+            "id": "3a5379c7-0683-4840-a59c-1539f902a862",
+            "course": "Course1",
+            "solution": {
+                "solution": "\n            print(\"hello world\")\n        "
+            },
+            "question": "what is output of print('hello world')",
+            "marks": 10,
+            "creator": "12",
+            "type": "shortanswer"
+        }
+    ],
+    "quizAttempts": [
+        {
+            "id": "43efddab-b505-43e8-8bb2-1f7c741a4d12",
+            "quizID": "d370e69b-fc24-4d1e-b42d-68da52153973",
+            "studentID": 1,
+            "responses": [
+                "f32b8b84-6465-40c3-a367-b455fd26e941"
+            ],
+            "score": 10,
+            "attemptDate": "date",
+            "marked": true
+        }
+    ],
+    "questionResponses": [
+        {
+            "id": "f32b8b84-6465-40c3-a367-b455fd26e941",
+            "questionID": "3a5379c7-0683-4840-a59c-1539f902a862",
+            "quizAttemptID": "43efddab-b505-43e8-8bb2-1f7c741a4d12",
+            "answer": "hello world\n",
+            "studentID": 1,
+            "marked": false,
+            "marksGiven": 0
+        }
+    ]
+}
