@@ -34,7 +34,7 @@ function Site () {
         <Navbar />
         <Routes>
           {/* Questions */}
-          <Route path="/Question/:courseName/:id" element={<Question />} />
+          <Route path="/Question/Details/:quizID/:id" element={<Question />} />
           <Route path="/Question/Edit/:courseName/:id" element={<Edit_Question />} />
           <Route path="/Question/New/:courseName/:id" element={<AddQuestion />} />
           <Route path="/Question/New-Coding/:courseName/:id" element={<Coding />} />

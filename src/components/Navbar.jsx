@@ -21,11 +21,17 @@ const Navbar = (props) => {
   const navigate = useNavigate();
   const token = 'test'
   const logout = async () => {
+    localStorage.clear();
+
     navigate('/')
   }
 
   const goHome = () => {
-    navigate('/Home/' + token)
+    const typeString = localStorage.getItem('user');
+    const zIDString = localStorage.getItem('zID');
+    const type = JSON.parse(typeString);
+    const zID = JSON.parse(zIDString);
+    navigate('/Home/'+ type + '/' + zID)
   }
 
   const [anchorEl, setAnchorEl] = React.useState(null);

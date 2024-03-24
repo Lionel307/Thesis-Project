@@ -36,6 +36,8 @@ const Login = (props) => {
       props.setTokenFn(data.zID);
       localStorage.setItem('zID', zID);
       const type = data.user
+      localStorage.setItem('user', JSON.stringify(type));
+      localStorage.setItem('zID', JSON.stringify(zID));
       navigate('/Home/'+ type + '/' + zID)
     }
   };

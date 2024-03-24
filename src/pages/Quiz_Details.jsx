@@ -42,24 +42,38 @@ const Quiz_Details = () => {
     }
   };
 
-  const handleMarkQuiz = (id) => {
+  const handleMarkQuiz = async (id) => {
     const confirmed = window.confirm('Do you want to mark this quiz?');
     if (confirmed) {
-      navigate('/Quizzes/' + quiz.course + '/' + params.id)
+      const response = await fetch(`http://localhost:5005/Quiz/Details`, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          quizID: id
+        })
+      });
+      const data = await response.json();
+      if (data.error) {
+        alert(data.error);
+      } else {
+        navigate('/Quizzes/' + quiz.course + '/' + params.id)
+      }
     }
   }
 
   const handleEdit = async () => {
     const editData = {
-      "id": new_id,
-      "title": title,
-      "description": description,
-      "creator": creatorID,
-      "course": course,
-      "questions": questions,
-      "attemptsAllowed": attemptsAllowed,
-      "timeAllowed": timeAllowed,
-      "isActive": False
+      "id": quiz.id,
+      "title": editQuizTitle,
+      "description": editDescription,
+      "creator": quiz.creator,
+      "course": quiz.course,
+      "questions": quiz.questions,
+      "attemptsAllowed": editAttemptsAllowed,
+      "timeAllowed": editTimeAllowed,
+      "isActive": quiz.isActive
     }
     const response = await fetch(`http://localhost:5005/Quiz/Details`, {
       method: 'PUT',
@@ -67,16 +81,18 @@ const Quiz_Details = () => {
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
-        quizID: params.quizID,
-        creatorID: params.id
-
+        id: params.quizID,
+        creatorID: params.id,
+        changes: editData
       })
     });
     const data = await response.json();
     if (data.error) {
       alert(data.error);
+    } else {
+      navigate('/Quizzes/' + quiz.course + '/' + params.id)
     }
-    navigate('/Quizzes/' + quiz.course + '/' + params.id)
+    
   }
 
   return (
