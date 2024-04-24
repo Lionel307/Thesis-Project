@@ -5,11 +5,19 @@ from code_solution import execute_solution
 
 # validates the solution works and has no errors
 def validate_solution(solution):
+    print(solution)
     variables = get_variables(solution)
-    valid_question = execute_solution(solution, variables)
-    if valid_question == "Error":
-        raise InputError("Error with the solution")
-    return True
+    try:
+        valid_question = execute_solution(solution, variables)
+        if valid_question == "Error":
+            raise InputError("Error with the solution")
+        return True
+    except SyntaxError:
+        raise SyntaxError("There is a Syntax Error with the solution.")
+    except NameError:
+        raise NameError("There is a Name Error with the solution.")
+    except TimeoutError:
+        raise TimeoutError("There is a Timeout Error with the solution.")
 
 # creates a multiple choice question
 def create_multiple_choice_question(solution, questionText, answers, marks, creatorID, attempts, course):
@@ -31,7 +39,6 @@ def create_multiple_choice_question(solution, questionText, answers, marks, crea
         with open('database.json', 'r') as file:
             data = json.load(file)
 
-        # TODO: try collapse new id into a function  
         while True:
             new_id = generate_unique_id()
             if is_unique_id(data, new_id, "questions"):
@@ -84,8 +91,6 @@ def create_short_answer_question(solution, questionText, marks, creatorID, attem
             new_id = generate_unique_id()
             if is_unique_id(data, new_id, "questions"):
                 break
-
-
 
         # checks if the question has a valid solution
         if validate_solution(solution):
@@ -220,18 +225,31 @@ def edit_question(id, creatorID, changes):
     with open('database.json', 'r') as file:
         data = json.load(file)
 
-    if validate_solution(changes['solution']):
+    if changes["type"] == 'coding':
         for question in data["questions"]:
-            if question["id"] == id :
-                if question["creator"] == creatorID:
-                    data["questions"].remove(get_question("db", id))
-                    data["questions"].append(changes)
-                    with open('database.json', 'w') as file:
-                        json.dump(data, file, indent=4)
-            
-                else:
-                    # AccessError is raised
-                    raise AccessError("You do not have permission to edit this question.")
+                if question["id"] == id :
+                    if question["creator"] == creatorID:
+                        data["questions"].remove(get_question("db", id))
+                        data["questions"].append(changes)
+                        with open('database.json', 'w') as file:
+                            json.dump(data, file, indent=4)
+                
+                    else:
+                        # AccessError is raised
+                        raise AccessError("You do not have permission to edit this question.")
+    else:
+        if validate_solution(changes['solution']):
+            for question in data["questions"]:
+                if question["id"] == id :
+                    if question["creator"] == creatorID:
+                        data["questions"].remove(get_question("db", id))
+                        data["questions"].append(changes)
+                        with open('database.json', 'w') as file:
+                            json.dump(data, file, indent=4)
+                
+                    else:
+                        # AccessError is raised
+                        raise AccessError("You do not have permission to edit this question.")
     
 # delete a question
 def delete_question(id, creatorID):
@@ -243,7 +261,6 @@ def delete_question(id, creatorID):
         Raises:
         AccessError: if the user did not create the question
     """
-    # TODO: InputError when question does not exist
 
     with open('database.json', 'r') as file:
         data = json.load(file)
@@ -259,7 +276,6 @@ def delete_question(id, creatorID):
                     data["questions"].remove(get_question("db", id))
                     #? remove the question for all questions?
                     for quiz in data["quizzes"]:
-                        # TODO: change questionIDS to question or vice versa
                         if id in quiz["questions"]:
                             quiz["questions"].remove(id)
                     with open('database.json', 'w') as file:
@@ -271,10 +287,9 @@ def delete_question(id, creatorID):
     if not found:
         raise InputError("This question does not exist")
 
-#? Should be a list of questions id that are added
 def add_question(id, quizID, creatorID):
     """
-        adds a question to a quiz
+        adds questions to a quiz
         Arguments: 
             - id of the question
             - if of the quiz

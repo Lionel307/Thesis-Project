@@ -14,19 +14,19 @@ def basic_pytest():
 def test_correct_answer(): 
     solution = {
         "solution": """
-            answer = ''
-            for i in range(1, v1):
-                if i % v2 == 0:
-                    answer += 'v3'
-                else:
-                    answer += str(i)
-                answer += "\\n"
+answer = ''
+for i in range(1, v1):
+    if i % v2 == 0:
+        answer += v3
+    else:
+        answer += str(i)
+    answer += "\\n"
 
-            print(answer)
+print(answer)
         """,
         "v1": 16,
         "v2": 3,
-        "v3": "shampoo"
+        "v3": 'shampoo'
     }
     answer = """1
 2
@@ -98,7 +98,7 @@ def test_randomised_variable():
    
     solution1 = {
         "solution": """
-            print((v1 + v2) * v3)
+print((v1 + v2) * v3)
         """,
         "v1": "random.randint(1, 100)",
         "v2": "random.randint(1, 100)",
@@ -107,7 +107,7 @@ def test_randomised_variable():
 
     solution2 = {
         "solution": """
-            print((v1 + v2) * v3)
+print((v1 + v2) * v3)
         """,
         "v1": "random.randint(1, 100)",
         "v2": "random.randint(1, 100)",
@@ -124,7 +124,7 @@ def test_list_variables():
     options = ["apple", "banana", "cherry", "date", "elderberry"]
     solution = {
         "solution": """
-            print(v1[::-1], end='')
+print(v1[::-1], end='')
         """,
         "v1": options,
     }
@@ -136,10 +136,10 @@ def test_list_variables():
 def test_runtime_error():
     solution = {
         "solution": """
-            i = 0
-            while True:
-                i += 1
-            print(i)
+i = 0
+while True:
+    i += 1
+print(i)
         """,
     }
     v = get_variables(solution)
@@ -152,15 +152,15 @@ def test_runtime_error():
 def test_incorrect_answer():  
     solution = {
         "solution": """
-            answer = ''
-            for i in range(1, v1):
-                if i % v2 == 0:
-                    answer += 'v3'
-                else:
-                    answer += str(i)
-                answer += "\\n"
+answer = ''
+for i in range(1, v1):
+    if i % v2 == 0:
+        answer += 'v3'
+    else:
+        answer += str(i)
+    answer += "\\n"
 
-            print(answer)
+print(answer)
         """,
         "v1": 16,
         "v2": 3,
@@ -191,15 +191,15 @@ shampoo
 def test_name_error_execute_solution():
     solution = {
         "solution": """
-            answer = ''
-            for i in range(a, v1):
-                if i % v2 == 0:
-                    answer += v3
-                else:
-                    answer += str(i)
-                answer += "\\n"
+answer = ''
+for i in range(a, v1):
+    if i % v2 == 0:
+        answer += v3
+    else:
+        answer += str(i)
+    answer += "\\n"
 
-            print(answer)
+print(answer)
         """,
         "v1": 16,
         "v2": 3,
@@ -215,10 +215,10 @@ def test_name_error_execute_solution():
 def test_import_math():
     solution = { 
         "solution": """
-            import math
-            radius = v1
-            area = math.pi * radius ** 2
-            print(area)
+import math
+radius = v1
+area = math.pi * radius ** 2
+print(area)
         """,
         "v1": "random.randint(1, 100)",
     }

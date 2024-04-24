@@ -30,7 +30,18 @@
             "title": "Course1",
             "creatorID": "12",
             "maxStudents": 10,
-            "students": []
+            "students": [
+                "1"
+            ]
+        },
+        {
+            "id": "ffa4af0b-9d89-4362-a76d-39af6921debd",
+            "title": "COMP1111",
+            "creatorID": "12",
+            "maxStudents": "100",
+            "students": [
+                "1"
+            ]
         }
     ],
     "quizzes": [
@@ -41,24 +52,16 @@
             "creator": "12",
             "course": "Course1",
             "questions": [
-                "3a5379c7-0683-4840-a59c-1539f902a862"
+                "3a5379c7-0683-4840-a59c-1539f902a862",
+                "3a2379c7-0683-4840-a59c-1539f902a862",
+                "dfa65928-daf0-423a-8599-a17cdc618648",
+                "9c53a63a-6924-4a9c-904c-70ad53cbd7d4",
+                "31655c5f-66c5-44f2-bdda-768900425651",
+                "5d88d3ce-3bab-4759-beeb-d3678df93ada"
             ],
             "attemptsAllowed": 1,
             "timeAllowed": "00:00:20",
-            "isActive": false
-        },
-        {
-            "id": "17816fd0-f83d-4fbf-9d33-22582ee5f90e",
-            "title": "edited test1",
-            "description": "description test",
-            "creator": "12",
-            "course": "Course1",
-            "questions": [
-                "3a5379c7-0683-4840-a59c-1539f902a862"
-            ],
-            "attemptsAllowed": "2",
-            "timeAllowed": "10:30:00",
-            "isActive": false
+            "isActive": true
         }
     ],
     "questions": [
@@ -66,24 +69,105 @@
             "id": "3a5379c7-0683-4840-a59c-1539f902a862",
             "course": "Course1",
             "solution": {
-                "solution": "\n            print(\"hello world\")\n        "
+                "solution": "\nprint(\"hello world\")\n        "
             },
             "question": "what is output of print('hello world')",
             "marks": 10,
             "creator": "12",
-            "type": "shortanswer"
+            "type": "shortanswer",
+            "attempts": 1
+        },
+        {
+            "id": "3a2379c7-0683-4840-a59c-1539f902a862",
+            "course": "Course1",
+            "solution": {
+                "solution": "\n# new comment\nsome = \"changes\"\nanswer = ''\nfor i in range(1, v1):\n    if i % v2 == 0:\n        answer += v3\n    else:\n        answer += str(i)\n    answer += \"\\n\"\n\nprint(answer)\n",
+                "v1": 16,
+                "v2": 3,
+                "v3": "shampoo",
+                "v4": "random.randint(1, 100)"
+            },
+            "question": "print numbers 1 to v1 but replace every number divisible by v2 with 'shampoo'",
+            "marks": "6",
+            "creator": "12",
+            "type": "shortanswer",
+            "attempts": "2"
+        },
+        {
+            "id": "dfa65928-daf0-423a-8599-a17cdc618648",
+            "course": "Course1",
+            "solution": {
+                "solution": "\nprint((v1 + v2) * v3)",
+                "v1": "random.randint(1, 100)",
+                "v2": "random.randint(1, 100)",
+                "v3": "[-1, 1]"
+            },
+            "question": "what is (v1 + v2)*v3",
+            "marks": 1,
+            "creator": "12",
+            "type": "shortanswer",
+            "attempts": 1
+        },
+        {
+            "id": "31655c5f-66c5-44f2-bdda-768900425651",
+            "course": "Course1",
+            "solution": {
+                "solution": "\nprint('true')",
+                "v1": "new variable"
+            },
+            "question": "edited True false question",
+            "marks": "1",
+            "creator": "12",
+            "type": "truefalse",
+            "attempts": "2"
         }
     ],
     "quizAttempts": [
         {
-            "id": "43efddab-b505-43e8-8bb2-1f7c741a4d12",
-            "quizID": "d370e69b-fc24-4d1e-b42d-68da52153973",
-            "studentID": 1,
+            "id": "684e5a47-21fd-4c9a-8ead-e2018b225954",
+            "quizID": "2b986940-cf16-4e17-8349-74ae81136951",
+            "studentID": "1",
             "responses": [
-                "f32b8b84-6465-40c3-a367-b455fd26e941"
+                "209f15d8-fcb8-484c-bde0-ad10eab58d72"
+            ],
+            "score": 2.0,
+            "attemptDate": "2024-04-04",
+            "marked": true
+        },
+        {
+            "id": "9cbc9870-4395-4b29-91de-98b9286783dc",
+            "quizID": "fd9f9310-488f-4f5f-a0f8-544a41981480",
+            "studentID": "1",
+            "responses": [],
+            "score": 0.0,
+            "attemptDate": "2024-04-09",
+            "marked": true
+        },
+        {
+            "id": "66aeab91-08bd-45ca-a507-8f2720f35093",
+            "quizID": "fd9f9310-488f-4f5f-a0f8-544a41981480",
+            "studentID": "1",
+            "responses": [
+                "4c165f52-4252-41ec-8c62-1b4f0488f3b3"
+            ],
+            "score": 2.0,
+            "attemptDate": "2024-04-10",
+            "marked": true
+        },
+        {
+            "id": "b44c8b66-d190-4d70-bd8f-334083bace34",
+            "quizID": "d370e69b-fc24-4d1e-b42d-68da52153973",
+            "studentID": "1",
+            "responses": [
+                "7587d5d0-fef1-4785-a1ef-74d58809a7e3",
+                "36713a2d-e159-4a74-a6c0-430af19f3396",
+                "f56f9378-8591-4952-9eda-18fe93f4a8f4",
+                "9a863fa8-4b1a-4bfd-8190-7bb480cbc296",
+                "d9879244-e2b4-4f1e-8c2d-4c1f3e5f4026",
+                "25a12fc7-b70c-40b1-b7cb-d1d92dca5a80"
             ],
             "score": 0,
-            "attemptDate": "date",
+            "attemptDate": "2024-04-13",
             "marked": false
         }
     ],
@@ -93,9 +177,40 @@
             "questionID": "3a5379c7-0683-4840-a59c-1539f902a862",
             "quizAttemptID": "43efddab-b505-43e8-8bb2-1f7c741a4d12",
             "answer": "hello world",
+            "idealAnswer": "hello world",
             "studentID": 1,
-            "marked": false,
+            "marked": true,
+            "marksGiven": 10.0
+        },
+        {
+            "id": "7f4b7ce5-516f-4179-a0bb-04abcea07a5b",
+            "questionID": "3a5379c7-0683-4840-a59c-1539f902a862",
+            "quizAttemptID": "329e87d8-e207-4bc6-b3cc-c49ba449d4ad",
+            "answer": "",
+            "idealAnswer": "hello world",
+            "studentID": "1",
+            "marked": true,
+            "marksGiven": 0.0
+        },
+        {
+            "id": "82e64606-029a-4429-9c2b-81b6097aaece",
+            "questionID": "3a2379c7-0683-4840-a59c-1539f902a862",
+            "quizAttemptID": "329e87d8-e207-4bc6-b3cc-c49ba449d4ad",
+            "answer": "no",
+            "idealAnswer": "1\n2\nshampoo\n4\n5\nshampoo\n7\n8\nshampoo\n10\n11\nshampoo\n13\n14\nshampoo",
+            "studentID": "1",
+            "marked": true,
             "marksGiven": 0
+        },
+        {
+            "id": "6cf04d9f-5f53-4c36-b01f-09a7ec6769b9",
+            "questionID": "dfa65928-daf0-423a-8599-a17cdc618648",
+            "quizAttemptID": "329e87d8-e207-4bc6-b3cc-c49ba449d4ad",
+            "answer": "-135",
+            "idealAnswer": "-135",
+            "studentID": "1",
+            "marked": true,
+            "marksGiven": 1.0
         }
     ]
 }

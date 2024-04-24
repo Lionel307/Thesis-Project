@@ -3,11 +3,11 @@ import json
 import uuid
 import random
 import re
-
+import ast
 def get_question(db, questionID):
     with open("database.json", "r") as file:
         data = json.load(file)["questions"]
-    file.close()
+    
     for question in data:
         if question["id"] == questionID:
             return question
@@ -17,7 +17,7 @@ def get_question(db, questionID):
 def get_quiz(db, quizID):
     with open("database.json", "r") as file:
         data = json.load(file)["quizzes"]
-    file.close()
+    
 
     for quiz in data:
         if quiz["id"] == quizID:
@@ -27,7 +27,7 @@ def get_quiz(db, quizID):
 def get_student(db, studentID):
     with open("database.json", "r") as file:
         data = json.load(file)["students"]
-    file.close()
+    
 
     for student in data:
         if student["id"] == studentID:
@@ -37,7 +37,7 @@ def get_student(db, studentID):
 def get_quiz_attempt(db, attemptID):
     with open("database.json", "r") as file:
         data = json.load(file)["quizAttempts"]
-    file.close()
+    
 
     for attempt in data:
         if attempt["id"] == attemptID:
@@ -48,7 +48,7 @@ def get_quiz_attempt(db, attemptID):
 def get_question_response(db, responseID):
     with open("database.json", "r") as file:
         data = json.load(file)["questionResponses"]
-    file.close()
+    
 
     for response in data:
         if response["id"] == responseID:
@@ -78,7 +78,7 @@ def get_all_questions(userID, courseID):
 def get_all_quiz_attempts(db, quizID):
     with open("database.json", "r") as file:
         data = json.load(file)["quizAttempts"]
-    file.close()
+    
     
     allAttempts = []
 
@@ -89,20 +89,20 @@ def get_all_quiz_attempts(db, quizID):
     
 def get_all_responses(attemptID):
     with open("database.json", "r") as file:
-        data = json.load(file)["questionResponses"]
-    file.close()
+        data = json.load(file)
+    
     
     allResponses = []
 
-    for attempt in data:
-        if attempt["quizAttemptID"] == attemptID:
-            allResponses.append(attempt['id'])
+    for response in data["questionResponses"]:
+        if response["quizAttemptID"] == attemptID:
+            allResponses.append(response['id'])
     return allResponses
 
 def get_course(courseID):
     with open("database.json", "r") as file:
         data = json.load(file)["courses"]
-    file.close()
+    
 
     for course in data:
         if course["id"] == courseID:
@@ -123,7 +123,7 @@ def is_unique_id(database, new_id, key):
 def check_admin_id(id):
     with open('database.json', 'r') as file:
         data = json.load(file)
-    file.close()
+    
     for user in data["admins"]:
         if user["id"] == id:
             return True
@@ -140,9 +140,9 @@ def get_variables(solution):
             if key != "solution":
             
                 # choose a random variable a provided list of values
-                if type(value) is list:
-                    
-                    item = random.choice(value)
+                if value.startswith("[") and value.endswith("]"):
+                    my_list = ast.literal_eval(value)
+                    item = random.choice(my_list)
                     if isinstance(item, str):
                         item =  '"' + item + '"'
                     
@@ -162,16 +162,24 @@ def get_variables(solution):
                     v.append(value) 
     return v
 
+def get_quizzes_in_course(courseName):
+    with open('database.json', 'r') as file:
+        data = json.load(file)
+    quizzes = []
+    for quiz in data['quizzes']:
+        if courseName == quiz['course']:
+            quizzes.append(quiz)
+    return quizzes
 
 def reset_to_backup_db():
     with open('backup.json', 'r') as file:
         # Read the contents of the source file
         data = json.load(file)
-    file.close()
+    
 
     with open('database.json', 'w') as file:
         json.dump(data, file, indent=4)
-    file.close()
+    
 
 if __name__ == '__main__':
     reset_to_backup_db()

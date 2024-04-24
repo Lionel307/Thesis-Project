@@ -73,6 +73,16 @@ def check_admins_courses(zID):
 
     return courses
 
+def check_student_courses(zID):
+    with open('database.json', 'r') as file:
+        data = json.load(file)
+    courses = []
+    for course in data['courses']:
+        if zID in course['students']:
+            courses.append(course)
+
+    return courses
+
 if __name__ == "__main__":
     title = 'delete'
     numStudents = 100

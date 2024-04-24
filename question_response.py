@@ -3,7 +3,7 @@ from helpers import *
 from code_solution import execute_solution
 from errors import AccessError, InputError
 
-def create_question_response(quesitonID, studentID, quizAttemptID, answer):
+def create_question_response(questionID, studentID, quizAttemptID, answer, variables):
     """
     creates a student's response to a question in a specific quiz attempt
 
@@ -16,13 +16,13 @@ def create_question_response(quesitonID, studentID, quizAttemptID, answer):
             break
 
     # when the student attempts a question, the correct answer is stored in the response object
-    question = get_question(1, quesitonID)
-    variables = get_variables(question['solution'])
+    question = get_question(1, questionID)
+    # variables = get_variables(question['solution'])
     ideal_answer = execute_solution(question['solution'], variables)
 
     newResponse = {
         "id": new_id,
-        "questionID": quesitonID,
+        "questionID": questionID,
         "quizAttemptID": quizAttemptID,
         "answer": answer,
         "idealAnswer": ideal_answer,
@@ -41,7 +41,7 @@ def create_question_response(quesitonID, studentID, quizAttemptID, answer):
 
     return new_id
 
-def create_code_response(quesitonID, studentID, quizAttemptID, answer):
+def create_code_response(questionID, studentID, quizAttemptID, answer):
     """
     creates a student's response to a coding question in a specific quiz attempt
 
@@ -54,7 +54,7 @@ def create_code_response(quesitonID, studentID, quizAttemptID, answer):
             break
     newResponse = {
         "id": new_id,
-        "questionID": quesitonID,
+        "questionID": questionID,
         "quizAttemptID": quizAttemptID,
         "answer": answer,
         "studentID": studentID,
@@ -72,7 +72,7 @@ def create_code_response(quesitonID, studentID, quizAttemptID, answer):
 
     return new_id
 
-#? clear or delete response
+# clear response
 def delete_question_response(id, userID):
     with open('database.json', 'r') as file:
         data = json.load(file)
@@ -84,10 +84,16 @@ def delete_question_response(id, userID):
             found = True
             # check if user is the student that created the answer or an admin
             if response["studentID"] == userID or check_admin_id(userID):
-                data["questionResponses"].remove(get_question_response("db", id))
+                # Update answer to an empty string and marksGiven to 0.0
+                
+                for attempt in data["quizAttempts"]:
+                    if id in attempt["responses"]:
+                        attempt["score"] -= response["marksGiven"]
+
+                response['answer'] = ''
+                response['marksGiven'] = 0.0
                 with open('database.json', 'w') as file:
                     json.dump(data, file, indent=4)
-        
             else:
                 # AccessError is raised
                 raise AccessError("You do not have permission to delete this response.")
@@ -127,3 +133,24 @@ def check_response(stuID, questionID, attemptID):
         if res['questionID'] == questionID and res['studentID'] == stuID:
             return True
     return False
+
+def add_feedback(id, adminID, feedback):
+    with open('database.json', 'r') as file:
+        data = json.load(file)
+    found = False
+
+    for response in data["questionResponses"]:
+        if response["id"] == id:
+            found = True
+            # check if user is the student that created the answer or an admin
+            if check_admin_id(adminID):
+                response["feedback"] = feedback
+
+                with open('database.json', 'w') as file:
+                    json.dump(data, file, indent=4)
+        
+            else:
+                # AccessError is raised
+                raise AccessError("You do not have permission to write feedback to this response.")
+    if not found:
+        raise InputError("This response does not exist")
