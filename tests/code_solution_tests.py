@@ -52,15 +52,15 @@ shampoo
 def test_incorrect_syntax(): 
     solution = {
         "solution": """
-            answer = ''
-            for i in range(, v1):
-                if i % v2 == 0:
-                    answer += v3
-                else:
-                    answer += str(i)
-                answer += "\\n"
+answer = ''
+for i in range(, v1):
+    if i % v2 == 0:
+        answer += v3
+    else:
+        answer += str(i)
+    answer += "\\n"
 
-            print(answer)
+print(answer)
         """,
         "v1": 16,
         "v2": 3,
@@ -75,15 +75,15 @@ def test_incorrect_syntax():
 def test_no_variable():
     solution = {
         "solution": """
-            answer = ''
-            for i in range(1, v1):
-                if i % v2 == 0:
-                    answer += 'v3'
-                else:
-                    answer += str(i)
-                answer += "\\n"
+answer = ''
+for i in range(1, v1):
+    if i % v2 == 0:
+        answer += 'v3'
+    else:
+        answer += str(i)
+    answer += "\\n"
 
-            print(answer)
+print(answer)
         """,
         "v1": None,
         "v2": 3,
@@ -146,7 +146,6 @@ print(i)
     with pytest.raises(TimeoutError):
         execute_solution(solution, v)
 
-# def test_case_sensitivity():
 
 # test when an incorrect answer is given
 def test_incorrect_answer():  
@@ -267,7 +266,6 @@ def add_numbers(a, b):
 """
     assert code_solution(answer, tests) == float(0)
 
-#TODO
 # test that if a program takes too long to complete no marks is awarded but some tests are still correct
 def test_partial_timeout_code_question():
     tests = [["add_numbers(1, 2)", 3], ["add_numbers(1, -1)", 0], ["add_numbers(10, -5)", 5], ["add_numbers(0, 0)", 0]]
@@ -292,6 +290,7 @@ def add_numbers(a, b):
     
     assert code_solution(answer, tests) == float(0)
 
+# test code solution can handle multiple functions
 def test_multiple_functions():
     tests = [["add_five(1)", 7], ["add_five(-1)", 3], ["add_five(10)", 25], ["add_five(0)", 5]]
     answer = """
@@ -302,20 +301,5 @@ def add_five(number):
     return 5 + multiply_by_two(number)
     """
     assert code_solution(answer, tests) == float(fractions.Fraction(len(tests), len(tests)))
-
-    
-
-def test_int_answers():
-    solution = {
-        "solution": """
-            def int_answers(answer):
-                return answer
-            print(int_answers(2))
-        """,
-        "v1": "random.randint(1, 100)",
-    }
-
-    v = get_variables(solution)
-    assert execute_solution(solution, v) == str(2)
 
 

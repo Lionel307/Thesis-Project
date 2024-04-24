@@ -1,7 +1,7 @@
 
 import re
 import fractions
-from helpers import get_question, get_variables
+from helpers import get_variables
 import subprocess
 
 timeout_duration = 5
@@ -11,9 +11,10 @@ def execute_solution(solution, variables):
     """
     execute the solution and return the answer
     Arguments:
-        solution -- a dictionary containing the solution to be executed. Also contains the randomised variables.
+        solution -- a dictionary containing the solution to be executed. 
+        variables -- the randomised variables extracted from the solution
     Returns:
-        the ideal solution 
+        the ideal answer 
     """
     code = ''
     # replace v* with the variable values
@@ -32,9 +33,6 @@ def execute_solution(solution, variables):
                 else:
                     variable = variables[j]
 
-
-                # if isinstance(variables[j], str):   
-                #     variable = f"'{variables[j]}'"
                 my_code[i] = re.sub("v(\d+)", str(variable), my_code[i])
         
         for x in my_code:
@@ -101,7 +99,6 @@ def code_solution(answer, tests):
     with open(script_name, "w") as file:
         file.write(code) 
 
-    #TODO add and test more errors
     # if the student's answer has a syntax error then the code doesnt work and should receive zero marks
     try: 
         with open(script_name, 'r') as file:
@@ -143,21 +140,3 @@ print({test[0]} == {test[1]})"""
             return 0
         
     return round(float(fractions.Fraction(totalCorrect, len(tests))), 2)
-
-
-
-
-
-# # TODO: when solution is printed, extra newline is added
-if __name__ == "__main__":
-    solution = {
-"solution": """
-print((v1 + v2) * v3)
-        """,
-        "v1": "random.randint(1, 100)",
-        "v2": "random.randint(1, 100)",
-        "v3": "[-1, 1]"
-            }
-    v = get_variables(solution)
-    print(execute_solution(solution, v))
-    

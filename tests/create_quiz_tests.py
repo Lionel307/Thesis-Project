@@ -235,4 +235,3 @@ def test_quiz_ends():
 
     quiz = get_quiz("db", id)
     assert quiz["isActive"] == False
-# test if a user can add a question created by a different user

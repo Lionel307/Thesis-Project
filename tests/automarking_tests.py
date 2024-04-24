@@ -16,7 +16,6 @@ def basic_pytest():
 # test the automarking feature
 # marks a quiz attempt and question response
 def test_basic_automark():
-    # ? create quiz and question?
     # create a question
     solution = {
         "solution": """

@@ -72,8 +72,11 @@ def create_code_response(questionID, studentID, quizAttemptID, answer):
 
     return new_id
 
-# clear response
 def delete_question_response(id, userID):
+    """
+    clears a question response (does not delete it from the database)
+    Also removes thw marks
+    """
     with open('database.json', 'r') as file:
         data = json.load(file)
 
@@ -101,9 +104,11 @@ def delete_question_response(id, userID):
         raise InputError("This response does not exist")
     
 def edit_question_response(id, userID, changes):
+    """
+    edits a question response
+    """
     with open('database.json', 'r') as file:
         data = json.load(file)
-
     found = False
 
     for response in data["questionResponses"]:
@@ -125,7 +130,13 @@ def edit_question_response(id, userID, changes):
     
 
 def check_response(stuID, questionID, attemptID):
-    
+    """
+    checks if this student has made a response to this question
+    Arugments:
+        stuID -- the id of the student
+        questionID -- the question ID
+        attemptID -- the attempt ID
+    """
     attempt = get_quiz_attempt(1, attemptID)
     for response in attempt['responses']:
         res = get_question_response(1, response)
@@ -135,6 +146,13 @@ def check_response(stuID, questionID, attemptID):
     return False
 
 def add_feedback(id, adminID, feedback):
+    """"
+    adds feedback to a specific response
+    Arugments:
+        id -- the id of the response
+        adminID -- the admin
+        feedback -- the feedback
+    """
     with open('database.json', 'r') as file:
         data = json.load(file)
     found = False

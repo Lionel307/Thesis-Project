@@ -2,6 +2,15 @@ import json
 from helpers import *
 from errors import *
 def create_course(id, title, numStudents):
+    """
+    Creates a new course
+    Arguments:
+        id -- the id of the user
+        title -- the title of the course
+        numStudents -- the max number of students
+    Returns:
+        the id of the new course
+    """
     if check_admin_id(id):
         with open('database.json', 'r') as file:
             data = json.load(file)
@@ -26,6 +35,9 @@ def create_course(id, title, numStudents):
         return new_id
 
 def edit_course(courseID, userID, changes):
+    """
+    edits a course
+    """
     with open('database.json', 'r') as file:
         data = json.load(file)
     found = False
@@ -46,10 +58,12 @@ def edit_course(courseID, userID, changes):
         raise KeyError("This course does not exist")
     
 def delete_course(courseID, userID):
+    """
+    deletes a course
+    """
     with open('database.json', 'r') as file:
         data = json.load(file)
     
-
     for course in data['courses']:
         if course["id"] == id:
             # check if user has permission to delete the course
@@ -63,6 +77,11 @@ def delete_course(courseID, userID):
                 raise AccessError("You do not have permission to delete this course.")
             
 def check_admins_courses(zID):
+    """
+    checks what courses are owned by the admin
+    Returns:
+        a list of courses
+    """
     with open('database.json', 'r') as file:
         data = json.load(file)
 
@@ -74,6 +93,11 @@ def check_admins_courses(zID):
     return courses
 
 def check_student_courses(zID):
+    """
+    checks what courses the student is enrolled in.
+    Returns:
+        a list of courses
+    """
     with open('database.json', 'r') as file:
         data = json.load(file)
     courses = []
@@ -83,10 +107,3 @@ def check_student_courses(zID):
 
     return courses
 
-if __name__ == "__main__":
-    title = 'delete'
-    numStudents = 100
-    userID = 12
-    id = create_course(userID, title, numStudents)
-    delete_course(id, "he")
-    print(get_course(id))

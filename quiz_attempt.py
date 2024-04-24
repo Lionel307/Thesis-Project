@@ -2,16 +2,25 @@ import json
 
 from helpers import *
 from errors import AccessError, QuizError
-from quiz import live_quiz, create_quiz
 
 
 def create_quiz_attempt(quizID, studentID, date):
+    """
+        create a new quiz attempt
+        Arguements:
+            - id of the quiz
+            - id of the student
+            - the current date
+        Returns:
+            - the id of the newly created attempt
+        Raises:
+        QuizError: if the student has already made the maximum number of attempts
+    """
     quiz = get_quiz(1, quizID)
     if quiz["isActive"] and check_attempts(studentID, quiz["attemptsAllowed"], quizID):
         with open('database.json', 'r') as file:
             data = json.load(file)
         
-
         while True:
             new_id = generate_unique_id()
             if is_unique_id(data, new_id, "quizAttempts"):
@@ -30,17 +39,16 @@ def create_quiz_attempt(quizID, studentID, date):
         with open('database.json', 'w') as file:
             json.dump(data, file, indent=4)
         
-
         return new_id
     else:
         raise QuizError("You cannot attempt this quiz")
 
-
-
 def delete_quiz_attempt(id, adminID):
+    """
+        deletes a quiz attempt
+    """
     with open('database.json', 'r') as file:
         data = json.load(file)
-    
 
     found = False
 
@@ -64,11 +72,10 @@ def delete_quiz_attempt(id, adminID):
     if not found:
         raise KeyError("This quiz does not exist")     
     
-
-def edit_attempt(id, adminID):
-    print("edit quiz attempt after marking")
-# checks if the student can attempt the quiz again
 def check_attempts(stuID, numAttempts, quizID):
+    """
+        returns true or false depending if the student can attempt the quiz again
+    """
     count = 0
     with open('database.json', 'r') as file:
         data = json.load(file)
@@ -82,14 +89,15 @@ def check_attempts(stuID, numAttempts, quizID):
     else:
         return False
     
-# returns the attempt with the highest score
 def get_highest_mark_attempt(stuID, quizID):
+    """
+        returns the attempt with the highest mark
+    """
     mark = 0
     id = " "
     with open('database.json', 'r') as file:
         data = json.load(file)
     
-
     for attempt in data["quizAttempts"]:
         if quizID == attempt["quizID"] and attempt["studentID"] == stuID:
             if attempt["score"] > mark:
@@ -98,6 +106,3 @@ def get_highest_mark_attempt(stuID, quizID):
     return id
     
 
-
-if __name__ == "__main__":
-    print('test')

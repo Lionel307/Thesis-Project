@@ -5,7 +5,9 @@ from code_solution import execute_solution
 
 # validates the solution works and has no errors
 def validate_solution(solution):
-    print(solution)
+    """
+    checks if solution is valid during the creation of the solution
+    """
     variables = get_variables(solution)
     try:
         valid_question = execute_solution(solution, variables)
@@ -29,6 +31,8 @@ def create_multiple_choice_question(solution, questionText, answers, marks, crea
             - list of answers
             - available marks
             - the id of the creator
+            - course name
+            - number of attempts
         Returns:
             - the id of the newly created question
         Raises:
@@ -77,6 +81,8 @@ def create_short_answer_question(solution, questionText, marks, creatorID, attem
             - questionText
             - available marks
             - the id of the creator
+            - course name
+            - number of attempts
         Returns:
             - the id of the newly created question
         Raises:
@@ -127,6 +133,8 @@ def create_true_false_question(solution, questionText, marks, creatorID, attempt
             - questionText
             - available marks
             - the id of the creator
+            - course name
+            - number of attempts
         Returns:
             - the id of the newly created question
         Raises:
@@ -171,6 +179,22 @@ def create_true_false_question(solution, questionText, marks, creatorID, attempt
         
 # creates a question that students can write code to answer
 def create_coding_question(tests, functionName, questionText, marks, creatorID, attempts, course):
+    """
+        creates a coding question
+        Arguments:
+            - a list of tests
+            - functionName
+            - available marks
+            - the id of the creator
+            - course name
+            - number of attempts
+        Returns:
+            - the id of the newly created question
+        Raises:
+        AccessError: if the user is not an admin
+        InputError: no tests are given
+        ValueError: if there is error with the list of tests
+    """
     if check_admin_id(creatorID):
         if not tests:
             raise InputError("You have to provide a least one test case to create a new question.")
@@ -184,8 +208,6 @@ def create_coding_question(tests, functionName, questionText, marks, creatorID, 
             new_id = generate_unique_id()
             if is_unique_id(data, new_id, "questions"):
                 break
-
-
 
         newQuestion = {
             "id": new_id,
@@ -309,19 +331,3 @@ def add_question(id, quizID, creatorID):
         
             else:
                 raise AccessError("You do not have permission to add this question this quiz.")
-
-
-if __name__ == "__main__":
-    solution = {"solution": 
-                """
-            print(v1 == v1)
-                """,
-                "v1": 1
-                }
-    questionText = "what does v1 == v1 return"
-    marks = 10
-    creatorID = 12
-    attempts = 1
-    id = create_true_false_question(solution, questionText, marks, creatorID, attempts)
-
-    question = get_question(1, id)

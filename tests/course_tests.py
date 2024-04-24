@@ -11,6 +11,7 @@ def basic_pytest():
     '''Test that pytest and pylint are working'''
     assert 1 + 1 == 2
 
+# test creating a new course
 def test_create_course():
     title = 'COMP1511'
     numStudents = 100
@@ -24,6 +25,7 @@ def test_create_course():
         "students": []
     }
 
+# test editing a course
 def test_edit_course():
     title = 'COMP1511'
     numStudents = 100
@@ -40,6 +42,7 @@ def test_edit_course():
     edit_course(id, userID, changes)
     assert get_course(id) == changes
 
+# Test that only an admin can change a course
 def test_edit_course_not_admin():
     title = 'COMP1511'
     numStudents = 100
@@ -56,6 +59,7 @@ def test_edit_course_not_admin():
     with pytest.raises(AccessError):
         edit_course(id, nonExistantID, changes)
 
+# test deleting a course
 def test_delete_course():
     title = 'delete'
     numStudents = 100
@@ -65,7 +69,8 @@ def test_delete_course():
     delete_course(id, userID)
 
     assert get_course(id) == None
-    
+
+# test that only an admin can delete a course
 def test_delete_course_not_admin():
     title = 'COMP1511'
     numStudents = 100

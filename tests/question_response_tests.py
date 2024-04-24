@@ -5,7 +5,6 @@ from question_response import *
 from question import create_coding_question, create_short_answer_question
 from quiz import create_quiz, live_quiz
 from quiz_attempt import create_quiz_attempt
-from automarking import automark_quiz
 from errors import *
 
 # this ID is an invalid ID used for testing purposes
@@ -42,6 +41,7 @@ def create_data():
     attemptID = create_quiz_attempt(quizID, studentID, attemptDate)
 
     return [questionID, attemptID]
+
 # test the creation of a response to a question by a student
 def test_create_question_response(create_data):
     studentID = "1"
@@ -129,7 +129,6 @@ def test_delete_question_response(create_data):
     if response['marked']:
         assert response['marksGiven'] == 0.0
 
-#TODO
 # test the creation of a student response to a coding question
 def test_create_coding_question_response():
     tests = [(1, 2, 3), (-1, 1, 0), (10, -5, 5), (0, 0, 0)]

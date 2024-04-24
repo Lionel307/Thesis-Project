@@ -1,19 +1,12 @@
 import json
 from errors import AccessError
 from helpers import check_admin_id
-# def login(zID, password):
-#     with open('database.json', 'r') as file:
-#         data = json.load(file)
-#     file.close()
-#     for user in data['students']:
-#         if user['id'] == zID and user['password'] == password:
-#             return True
-#     for user in data['admins']:
-#         if user['id'] == zID and user['password'] == password:
-#             return True
-#     return False
+
 
 def login(zID, password):
+    """
+    login a user
+    """
     with open('database.json', 'r') as file:
         data = json.load(file)
 
@@ -25,6 +18,9 @@ def login(zID, password):
     raise AccessError("Invalid zID or password")
 
 def check_user_type(zID):
+    """
+    checks the user type
+    """
     if check_admin_id(zID):
         return 'Admin'
     else:

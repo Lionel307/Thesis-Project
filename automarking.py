@@ -61,7 +61,6 @@ def automark_attempt(attempt):
             totalMarks += marks
 
         else:
-            variables = get_variables(question['solution'])
             if response['idealAnswer'] == response['answer']:
                 print('here')
                 totalMarks += float(question["marks"])

@@ -5,6 +5,7 @@ from errors import *
 from quiz import create_quiz, delete_quiz, live_quiz
 from question import *
 from automarking import *
+from question_response import *
 # this ID is an invalid ID used for testing purposes
 nonExistantID = "invalid id"
 
@@ -14,6 +15,7 @@ nonExistantID = "invalid id"
 def basic_pytest():
     '''Test that pytest and pylint are working'''
     assert 1 + 1 == 2
+
 # test the creation of a quiz attempt
 # as the student is answering each question, it should be appened to responses when subtmitted
 def test_create_quiz_attempt():

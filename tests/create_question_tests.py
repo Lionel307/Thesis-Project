@@ -189,26 +189,6 @@ def add_numbers(a, b):
     with pytest.raises(InputError):
         id = create_coding_question(tests, functionName, questionText, marks, creatorID, attempts, course)
 
-# # when a question is created make sure the tests are valid
-# #TODO
-# def test_create_coding_question_invalid_function_name():
-#     tests = [["add_numbers(1, 2", 3], ["add_numbers(1, -1)", 0], ["add_numbers(10, -5)", 5], ["add_numbers(0, 0)", 0]]
-
-# #TODO change this test
-# # test the creation of a coding question with invalid tests
-# def test_create_coding_question_invalid_tests():
-#     tests = [[1, 2, 3, 4], [-1, 1, 0], [10, -5, 5], [0, 0, 0]]
-#     questionText = "Write a Python function called add_numbers that takes two numbers as input and returns their sum."
-#     marks = 10
-#     creatorID = "12"
-#     attempts = 1
-#     functionName =  """
-# def add_numbers(a, b):
-# """
-#     with pytest.raises(ValueError):
-#         id = create_coding_question(tests, functionName, questionText, marks, creatorID, attempts)
-
-
 # test the deletion of a question
 def test_delete_question():
     solution = 'print("hello world")'
@@ -400,7 +380,6 @@ def test_add_question_unauthorised():
     with pytest.raises(AccessError):
         add_question(questionID, quizID, nonExistantID)
 
-#TODO
 # test that an InputError is raised when a value is missing
 def test_missing_value():
     solution = ''
