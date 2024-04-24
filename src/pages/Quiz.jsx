@@ -34,11 +34,14 @@ const Quiz = () => {
       alert("This question has already been added.");
     } else {
       setSelectedQuestions([...selectedQuestions, question]);
+      setQuestions(questions.filter((q) => q.id !== question.id));
     }
   };
 
   const handleRemoveQuestion = (question) => {
     setSelectedQuestions(selectedQuestions.filter((q) => q.id !== question.id));
+    setQuestions([...questions, question]);
+
   };
 
   const handleCreateQuiz = async () => {
@@ -103,7 +106,7 @@ const Quiz = () => {
                 <Typography variant="body1" gutterBottom>{question.question}</Typography>
                 <Typography variant="body2" gutterBottom>Marks: {question.marks}</Typography>
                 <Typography variant="body2" gutterBottom>Type: {getQuestionTypeLabel(question.type)}</Typography>
-                <Button onClick={() => handleRemoveQuestion(question)} variant="outlined" color="secondary">
+                <Button onClick={() => handleRemoveQuestion(question)} variant="contained" color="error">
                   Remove
                 </Button>
               </Paper>

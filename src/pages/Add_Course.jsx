@@ -9,11 +9,28 @@ import {
 } from 'react-router-dom';
 const NewCourse = () => {
   const navigate = useNavigate();
+  const params = useParams();
 
-  const [newCouseTitle, setNewCourseTitle] = React.useState('');
+  const [newCourseTitle, setNewCourseTitle] = React.useState('');
   const [numStudents, setNumStudents] = React.useState('');
   const newCourse = async () => {
-    navigate('/Course/id/token')
+    const response = await fetch(`http://localhost:5005/Course/New`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: params.id,
+        title: newCourseTitle,
+        numStudents: numStudents
+      })
+    });
+    const data = await response.json();
+    if (data.error) {
+      alert(data.error);
+    } else {
+        navigate('/Course/' + newCourseTitle + '/' + params.id)
+    }
   }
     return (
       <>
@@ -28,7 +45,7 @@ const NewCourse = () => {
             label="New Course Title"
             fullWidth
             variant="standard"
-            value={newCouseTitle}
+            value={newCourseTitle}
             onChange={(e) => setNewCourseTitle(e.target.value)}
           />
         </Grid>

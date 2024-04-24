@@ -8,11 +8,13 @@ const Quiz_Details = () => {
 
   const [quiz, setQuiz] = useState({}); // State to store quiz
   const [questions, setQuestions] = useState([]); // State to store the questions of the quiz
-  const [numAttempts, setNumAttempts] = useState(0); // State to store the questions of the quiz
+  const [questionBank, setQuestionBank] = useState([]); // State to store the question bank
+  const [numAttempts, setNumAttempts] = useState(0); // State to store the attempts of the quiz
   const [editQuizTitle, setEditQuizTitle] = useState('');
   const [editAttemptsAllowed, setEditAttemptsAllowed] = useState(0);
   const [editTimeAllowed, setEditTimeAllowed] = useState(0);
   const [editDescription, setEditDescription] = useState('');
+
   useEffect(() => {
     fetchQuiz();
   }, []);
@@ -36,6 +38,7 @@ const Quiz_Details = () => {
         setEditAttemptsAllowed(data.quiz.attemptsAllowed);
         setEditDescription(data.quiz.description);
         setEditTimeAllowed(data.quiz.timeAllowed);
+        setQuestionBank(data.questionBank);
       }
     } catch (error) {
       alert(error.message);
@@ -45,32 +48,38 @@ const Quiz_Details = () => {
   const handleMarkQuiz = async (id) => {
     const confirmed = window.confirm('Do you want to mark this quiz?');
     if (confirmed) {
-      const response = await fetch(`http://localhost:5005/Quiz/Details`, {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          quizID: id
-        })
-      });
-      const data = await response.json();
-      if (data.error) {
-        alert(data.error);
-      } else {
-        navigate('/Quizzes/' + quiz.course + '/' + params.id)
+      try {
+        const response = await fetch(`http://localhost:5005/Quiz/Details`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            quizID: id
+          })
+        });
+        const data = await response.json();
+        if (data.error) {
+
+          alert(data.error);
+        } else {
+          navigate('/Quiz/Results/' + id + '/' + params.id)
+        }
+      } catch (error) {
+        alert(error)
       }
     }
   }
 
   const handleEdit = async () => {
+    const questionIds = questions.map(question => question.id);
     const editData = {
       "id": quiz.id,
       "title": editQuizTitle,
       "description": editDescription,
       "creator": quiz.creator,
       "course": quiz.course,
-      "questions": quiz.questions,
+      "questions": questionIds,
       "attemptsAllowed": editAttemptsAllowed,
       "timeAllowed": editTimeAllowed,
       "isActive": quiz.isActive
@@ -91,9 +100,20 @@ const Quiz_Details = () => {
       alert(data.error);
     } else {
       navigate('/Quizzes/' + quiz.course + '/' + params.id)
-    }
-    
+    } 
   }
+
+  const handleAddQuestion = (question) => {
+    
+      setQuestions([...questions, question]);
+      setQuestionBank(questionBank.filter((q) => q.id !== question.id));
+
+  };
+
+  const handleRemoveQuestion = (question) => {
+    setQuestions(questions.filter((q) => q.id !== question.id));
+    setQuestionBank([...questionBank, question]);
+  };
 
   return (
     <div style={{ padding: '20px' }}>
@@ -171,28 +191,57 @@ const Quiz_Details = () => {
                 </Button>
               </Grid>
             </Grid>
+            <div style={{ width: '100%', marginRight: '5%' }}>
+              <Typography variant="h5">Questions</Typography>
+              {questionBank.length === 0 ? (
+                <Typography variant="body1">There are no questions for this course.</Typography>
+              ) : (
+                <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                  {questionBank.map((question) => (
+                    <Paper key={question.id} style={{ padding: '10px', marginBottom: '10px', border: '1px solid #ddd' }}>
+                      <Typography variant="body1" gutterBottom>{question.question}</Typography>
+                      <Typography variant="body2" gutterBottom>Marks: {question.marks}</Typography>
+                      <Typography variant="body2" gutterBottom>Type: {getQuestionTypeLabel(question.type)}</Typography>
+                      <Button onClick={() => handleAddQuestion(question)} variant="outlined" color="primary">
+                        Add
+                      </Button>
+                    </Paper>
+                  ))}
+                </div>
+              )}
+            </div>
+
           </Container>
         </div>
 
         {/* Right side: Display questions */}
-        <div style={{ width: '45%' }}>
-          <Typography variant="h5">Questions</Typography>
-          {questions.map((question) => (
-            <Paper key={question.id} style={{ padding: '10px', marginBottom: '10px', border: '1px solid #ddd' }}>
-              <Typography variant="body1" gutterBottom>{question.question}</Typography>
-              <Typography variant="body2" gutterBottom>Marks: {question.marks}</Typography>
-              <Typography variant="body2" gutterBottom>Type: {getQuestionTypeLabel(question.type)}</Typography>
-            </Paper>
-          ))}
-        </div>
+        {questions.length === 0 ? (
+          <Typography variant="body1">There are no questions for this course.</Typography>
+        ) : (
+          <div style={{ width: '45%', maxHeight: '600px', overflowY: 'auto'  } }>
+            <Typography variant="h5">Questions</Typography>
+            
+            {questions.map((question) => (
+              <Paper key={question.id} style={{ padding: '10px', marginBottom: '10px', border: '1px solid #ddd' }}>
+                <Typography variant="body1" gutterBottom>{question.question}</Typography>
+                <Typography variant="body2" gutterBottom>Marks: {question.marks}</Typography>
+                <Typography variant="body2" gutterBottom>Type: {getQuestionTypeLabel(question.type)}</Typography>
+                <Button onClick={() => handleRemoveQuestion(question)} variant="contained" color="error">
+                    Remove
+                </Button>
+              </Paper>
+            ))}
+          </div>
+        )}
       </div>
       
       {/* Buttons at the bottom right */}
       <Box sx={{ position: 'fixed', bottom: '20px', right: '20px', display: 'flex', gap: '10px' }}>
-        <Button variant="contained" color="primary" size="large" onClick={() => handleMarkQuiz(quiz.id)}>
+        <Button variant="contained" color="success" size="large" onClick={() => handleMarkQuiz(quiz.id)}>
           Mark Quiz
         </Button>
       </Box>
+    
     </div>
   );
 };

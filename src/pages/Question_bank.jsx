@@ -41,7 +41,7 @@ const QuestionBank = () => {
   const currentQuestions = questions.slice(indexOfFirstQuestion, indexOfLastQuestion);
 
   const goAddQuestion = () => {
-    navigate('/Question/New/courseName/' + 'token');
+    navigate('/Question/New/'+ params.courseName + '/' + params.id);
   };
 
   const questionDetails = (id) => {
@@ -87,6 +87,7 @@ const QuestionBank = () => {
                     <Box mt={2}>
                       <Typography variant="body1" gutterBottom>{question.question}</Typography>
                       <Typography variant="body2" gutterBottom>Marks: {question.marks}</Typography>
+                      <Typography variant="body2" gutterBottom>Attempts: {question.attempts}</Typography>
                       <Typography variant="body2" gutterBottom>Type: {getQuestionTypeLabel(question.type)}</Typography>
                     </Box>
                   </CardContent>
